@@ -31,11 +31,15 @@ def main():
             # Load the tagKeys.json file into the tagKeys dictionary
             with myzip.open('tagKeys.json') as json_file:
                 tagKeys = json.load(json_file)
-
+            macaddress_id = ""
             for tag in tagKeys['tagKeys']:
                 if tag['key'] == 'mac-address':
                     macaddress_id = tag['id']
-            print(macaddress_id)
+            if macaddress_id == "":
+                print("mac-address tag was not found, exiting..")
+                shutil.rmtree(current_filename)
+                exit()
+                
             for line in csv_data:
                 for ap in accessPoints['accessPoints']:
                     if line['Name'] == ap['name']:
